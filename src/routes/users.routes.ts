@@ -7,7 +7,13 @@ class UsersRoutes {
 
     constructor(){
         this.router.get('/show', usersController.show);
+        
         this.router.get('/', usersController.index);
+        this.router.post('/', usersController.create);
+        this.router.delete('/:id', usersController.delete);
+        this.router.put('/:id', usersController.update);
+
+        this.router.get('/providers', usersController.providers);
     }
 }
 

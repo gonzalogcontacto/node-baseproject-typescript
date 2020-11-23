@@ -38,6 +38,21 @@ class UsersController {
         }   
     }
 
+    public async providers (req: Request, res: Response) {
+        const product: Provider[] = await Provider.findAll(
+            {
+                include: [
+                    {
+                        model: Product
+                    }
+                ]   
+            }
+        );
+
+        res.send(product);
+        
+    }
+
     public async show (req: Request, res: Response) {
 
         const product: Product[] = await Product.findAll(
@@ -53,6 +68,65 @@ class UsersController {
         res.send(product);
         
     }
+
+    public async create (req: Request, res: Response){
+
+        try{
+            const request = req.body;
+            const newUser = await User.create(request);
+
+            res.json(newUser);
+
+        }catch(error){
+
+            res.json(error);
+            
+        }
+            
+    }
+
+    public async delete (req: Request, res: Response){
+
+        console.log(req.params.id);
+
+        try {
+            
+            const user = await User.destroy({
+                where: {
+                    id: req.params.id
+                }
+            });
+
+            res.sendStatus(200);
+
+        } catch (error){
+            res.json(error);
+        }
+    }
+
+    public async update (req: Request, res: Response){
+
+        try {
+            
+            const user = await User.update(
+                {
+                    name: req.body.name,
+                    familyName: req.body.familyName
+                },
+                {
+                    where: {
+                        id: req.params.id
+                    }
+                }
+            );
+
+            res.json(user);
+
+        } catch (error){
+            res.json(error);
+        }
+    }
+
 }
 
 export const usersController = new UsersController();
