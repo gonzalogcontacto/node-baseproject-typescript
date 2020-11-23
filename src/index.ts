@@ -17,6 +17,7 @@ app.use('/users', userRoutes.router);
 // Start the server, using the port defined
 app.listen(app.get('port'), () => {
 
+    console.log('New console.log');
     console.log(`Ther server is running on port ${app.get('port')}`); 
     
 });
