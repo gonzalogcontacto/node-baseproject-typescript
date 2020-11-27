@@ -4,6 +4,7 @@ import { Op } from 'sequelize';
 import { User } from '../models/user.model';
 import { Product } from '../models/product.model';
 import { Provider } from '../models/provider.model';
+import { Sales } from '../models/sales.model';
 
 class UsersController {
 
@@ -48,9 +49,7 @@ class UsersController {
                 ]   
             }
         );
-
         res.send(product);
-        
     }
 
     public async show (req: Request, res: Response) {
@@ -64,9 +63,7 @@ class UsersController {
                 ]   
             }
         );
-
         res.send(product);
-        
     }
 
     public async create (req: Request, res: Response){
@@ -124,6 +121,26 @@ class UsersController {
 
         } catch (error){
             res.json(error);
+        }
+    }
+
+
+    public async sales (req: Request, res: Response){
+
+        User.belongsToMany(Product, {through: Sales})
+        Product.belongsToMany(User, {through: Sales})
+
+        try {
+            const sales = await Product.findAll(
+                {
+                    include: [User]
+                }
+            );
+            res.send(sales);
+
+        } catch (error){
+            console.log(error);
+            res.send(error);
         }
     }
 

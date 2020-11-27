@@ -42,5 +42,5 @@ Product.init({
     sequelize: database // Es donde decimos como conectanros a la base de datos
 })
 
-Product.belongsTo(Provider);
+Product.belongsTo(Provider, {foreignKey: 'providerId'});
 Provider.hasMany(Product);
